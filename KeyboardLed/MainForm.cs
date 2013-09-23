@@ -30,7 +30,7 @@ namespace KeyboardLed
         private void MainForm_Load(object sender, EventArgs e)
         {
             speakerMute = !AudioHelp.IsMute();
-            numlockVisible = IsKeyLocked(Keys.NumLock);
+            numlockVisible = !IsKeyLocked(Keys.NumLock);
             capslockVisible = IsKeyLocked(Keys.CapsLock);
             UpdateVisiable();
 
