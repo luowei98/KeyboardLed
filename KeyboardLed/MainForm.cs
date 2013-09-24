@@ -57,7 +57,7 @@ namespace KeyboardLed
 
             hook.HookedKeys.Add(Keys.CapsLock);
             hook.HookedKeys.Add(Keys.NumLock);
-            hook.HookedKeys.Add(Keys.Scroll);
+            hook.HookedKeys.Add(Keys.Pause);
 
             hook.KeyDown += this.Global_KeyDown;
         }
@@ -69,7 +69,7 @@ namespace KeyboardLed
         {
             switch (e.KeyCode)
             {
-                case Keys.Scroll:
+                case Keys.Pause:
                     {
                         speakerMute = !AudioHelp.IsMute();
                         speaker.Show(speakerMute);
