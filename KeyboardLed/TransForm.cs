@@ -34,8 +34,8 @@ namespace KeyboardLed
         {
             this.ShowInTaskbar = false;
 
-            Native.GetWindowLong(this.Handle, Native.GWL_EXSTYLE);
-            Native.SetWindowLong(this.Handle, Native.GWL_EXSTYLE, Native.WS_EX_TRANSPARENT | Native.WS_EX_LAYERED);
+            var currStyle = Native.GetWindowLong(this.Handle, Native.GWL_EXSTYLE);
+            Native.SetWindowLong(this.Handle, Native.GWL_EXSTYLE, currStyle | Native.WS_EX_TRANSPARENT | Native.WS_EX_LAYERED);
 
             this.TopMost = true;
         }

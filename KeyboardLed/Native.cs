@@ -23,14 +23,28 @@ namespace KeyboardLed
     {
         #region Constant
 
+        /// <summary>The gwl exstyle.</summary>
         public const int GWL_EXSTYLE = -20;
-        public const uint WS_EX_TRANSPARENT = 0x00000020;
+
+        /// <summary>The transparent.</summary>
+        public const uint WS_EX_TRANSPARENT = 0x20;
+
+        /// <summary>The layered.</summary>
         public const uint WS_EX_LAYERED = 0x80000;
 
+        /// <summary>The keyboard.</summary>
         public const int WH_KEYBOARD_LL = 13;
+
+        /// <summary>The keydown.</summary>
         public const int WM_KEYDOWN = 0x100;
+
+        /// <summary>The keyup.</summary>
         public const int WM_KEYUP = 0x101;
+
+        /// <summary>The syskeydown.</summary>
         public const int WM_SYSKEYDOWN = 0x104;
+
+        /// <summary>The syskeyup.</summary>
         public const int WM_SYSKEYUP = 0x105;
 
         #endregion
@@ -46,7 +60,7 @@ namespace KeyboardLed
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowsHookEx(
             int idHook, 
-            KeyboardHook.keyboardHookProc callback, 
+            KeyboardHook.KeyboardHookProc callback, 
             IntPtr hInstance, 
             uint threadId);
 
@@ -67,22 +81,31 @@ namespace KeyboardLed
             IntPtr idHook, 
             int nCode, 
             int wParam, 
-            ref KeyboardHook.keyboardHookStruct lParam);
+            ref KeyboardHook.KeyboardHookStruct lParam);
 
         /// <summary>Loads the library.</summary>
-        /// <param name="lpFileName">Name of the library</param>
+        /// <param name="szFileName">Name of the library</param>
         /// <returns>A handle to the library</returns>
         [DllImport("kernel32.dll")]
-        public static extern IntPtr LoadLibrary(string lpFileName);
+        public static extern IntPtr LoadLibrary(string szFileName);
 
-        [DllImport("user32", EntryPoint = "SetWindowLong")]
-        public static extern uint SetWindowLong(IntPtr hwnd, int nIndex, uint dwNewLong);
+        /// <summary>
+        /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs..</param>
+        /// <param name="nIndex">The zero-based offset to the value to be set. Valid values are in the range zero through the number of bytes of extra window memory, minus the size of an integer. To set any other value, specify one of the following values: GWL_EXSTYLE, GWL_HINSTANCE, GWL_ID, GWL_STYLE, GWL_USERDATA, GWL_WNDPROC </param>
+        /// <param name="dwNewLong">The replacement value.</param>
+        /// <returns>If the function succeeds, the return value is the previous value of the specified 32-bit integer. 
+        /// If the function fails, the return value is zero. To get extended error information, call GetLastError. </returns>
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
 
+        /// <summary>The get window long.</summary>
+        /// <param name="hwnd">The hwnd.</param>
+        /// <param name="nIndex">The n index.</param>
+        /// <returns>The <see cref="uint"/>.</returns>
         [DllImport("user32", EntryPoint = "GetWindowLong")]
         public static extern uint GetWindowLong(IntPtr hwnd, int nIndex);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
         #endregion
     }

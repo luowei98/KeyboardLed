@@ -1,32 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿#region file header
+
+// -----------------------------------------------------------------------------
+// Project: KeyboardLed.KeyboardLed
+// File:    MainForm.cs
+// Author:  Robert.L
+// Created: 2013/09/23 14:55
+// -----------------------------------------------------------------------------
+
+#endregion
 
 namespace KeyboardLed
 {
+    #region using statements
+
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    #endregion
+
+    /// <summary>The main form.</summary>
     public partial class MainForm : TransForm
     {
-        private static SpeakerForm speaker = new SpeakerForm();
+        /// <summary>The speaker.</summary>
+        private static readonly SpeakerForm speaker = new SpeakerForm();
 
-        private static KeyboardHook hook = new KeyboardHook();
+        /// <summary>The hook.</summary>
+        private static readonly KeyboardHook hook = new KeyboardHook();
 
+        /// <summary>The speaker mute.</summary>
         private static bool speakerMute;
 
+        /// <summary>The numlock visible.</summary>
         private static bool numlockVisible;
 
+        /// <summary>The capslock visible.</summary>
         private static bool capslockVisible;
 
+        /// <summary>Initializes a new instance of the <see cref="MainForm"/> class.</summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>The main form_ load.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             speakerMute = !AudioHelp.IsMute();
@@ -43,6 +62,9 @@ namespace KeyboardLed
             hook.KeyDown += this.Global_KeyDown;
         }
 
+        /// <summary>The global_ key down.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void Global_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -53,12 +75,14 @@ namespace KeyboardLed
                         speaker.Show(speakerMute);
                         break;
                     }
+
                 case Keys.NumLock:
                     {
                         numlockVisible = !numlockVisible;
                         UpdateVisiable();
                         break;
                     }
+
                 case Keys.CapsLock:
                     {
                         capslockVisible = !capslockVisible;
@@ -70,6 +94,7 @@ namespace KeyboardLed
             e.Handled = false;
         }
 
+        /// <summary>The update visiable.</summary>
         private void UpdateVisiable()
         {
             picNumber.Visible = numlockVisible;
@@ -79,6 +104,7 @@ namespace KeyboardLed
             this.Refresh();
         }
 
+        /// <summary>The set position.</summary>
         private void SetPosition()
         {
             var x = Screen.PrimaryScreen.Bounds.Right - this.Width + 50;
@@ -88,6 +114,5 @@ namespace KeyboardLed
 
             speaker.SetLocation(this.Location.X, this.Location.Y - speaker.Height - 16);
         }
-
     }
 }

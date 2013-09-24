@@ -22,45 +22,44 @@ namespace KeyboardLed
     /// <summary>The keyboard hook.</summary>
     public class KeyboardHook
     {
-        #region Constant, Structure and Delegate Definitions
-
-        /// <summary>
-        /// defines the callback type for the hook
-        /// </summary>
-        public delegate int keyboardHookProc(int code, int wParam, ref keyboardHookStruct lParam);
-
-        /// <summary>The keyboard hook struct.</summary>
-        public struct keyboardHookStruct
-        {
-            /// <summary>The vk code.</summary>
-            public int vkCode;
-
-            /// <summary>The scan code.</summary>
-            public int scanCode;
-
-            /// <summary>The flags.</summary>
-            public int flags;
-
-            /// <summary>The time.</summary>
-            public int time;
-
-            /// <summary>The dw extra info.</summary>
-            public int dwExtraInfo;
-        }
-
-        #endregion
-
         #region Instance Variables
-
-        /// <summary>
-        /// The collections of keys to watch for
-        /// </summary>
-        public List<Keys> HookedKeys = new List<Keys>();
 
         /// <summary>
         /// Handle to the hook, need this to unhook and call the next hook
         /// </summary>
         private IntPtr hhook = IntPtr.Zero;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>Initializes a new instance of the <see cref="KeyboardHook"/> class. 
+        /// Initializes a new instance of the <see cref="KeyboardHook"/> class and installs the keyboard hook.</summary>
+        public KeyboardHook()
+        {
+            this.Hook();
+            this.HookedKeys = new List<Keys>();
+        }
+
+        /// <summary>Finalizes an instance of the <see cref="KeyboardHook"/> class. 
+        /// Releases unmanaged resources and performs other cleanup operations before the<see cref="KeyboardHook"/> is reclaimed by garbage collection and uninstalls the keyboard hook.</summary>
+        ~KeyboardHook()
+        {
+            this.Unhook();
+        }
+
+        #endregion
+
+        #region Delegate Definitions
+
+        /// <summary>
+        /// defines the callback type for the hook
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <param name="wParam">The w param.</param>
+        /// <param name="lParam">The l param.</param>
+        /// <returns>The <see cref="int"/>.</returns>
+        public delegate int KeyboardHookProc(int code, int wParam, ref KeyboardHookStruct lParam);
 
         #endregion
 
@@ -78,21 +77,12 @@ namespace KeyboardLed
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Delegate Definitions
 
-        /// <summary>Initializes a new instance of the <see cref="KeyboardHook"/> class. 
-        /// Initializes a new instance of the <see cref="globalKeyboardHook"/> class and installs the keyboard hook.</summary>
-        public KeyboardHook()
-        {
-            hook();
-        }
-
-        /// <summary>Finalizes an instance of the <see cref="KeyboardHook"/> class. 
-        /// Releases unmanaged resources and performs other cleanup operations before the<see cref="globalKeyboardHook"/> is reclaimed by garbage collection and uninstalls the keyboard hook.</summary>
-        ~KeyboardHook()
-        {
-            unhook();
-        }
+        /// <summary>
+        /// Gets or sets the collections of keys to watch for
+        /// </summary>
+        public List<Keys> HookedKeys { get; set; }
 
         #endregion
 
@@ -101,18 +91,18 @@ namespace KeyboardLed
         /// <summary>
         /// Installs the global hook
         /// </summary>
-        public void hook()
+        public void Hook()
         {
             IntPtr hInstance = Native.LoadLibrary("User32");
-            hhook = Native.SetWindowsHookEx(Native.WH_KEYBOARD_LL, hookProc, hInstance, 0);
+            this.hhook = Native.SetWindowsHookEx(Native.WH_KEYBOARD_LL, this.HookProc, hInstance, 0);
         }
 
         /// <summary>
         /// Uninstalls the global hook
         /// </summary>
-        public void unhook()
+        public void Unhook()
         {
-            Native.UnhookWindowsHookEx(hhook);
+            Native.UnhookWindowsHookEx(this.hhook);
         }
 
         /// <summary>The callback for the keyboard hook</summary>
@@ -120,21 +110,21 @@ namespace KeyboardLed
         /// <param name="wParam">The event type</param>
         /// <param name="lParam">The keyhook event information</param>
         /// <returns>The <see cref="int"/>.</returns>
-        public int hookProc(int code, int wParam, ref keyboardHookStruct lParam)
+        public int HookProc(int code, int wParam, ref KeyboardHookStruct lParam)
         {
             if (code >= 0)
             {
-                var key = (Keys)lParam.vkCode;
-                if (HookedKeys.Contains(key))
+                var key = (Keys)lParam.VkCode;
+                if (this.HookedKeys.Contains(key))
                 {
                     var kea = new KeyEventArgs(key);
-                    if ((wParam == Native.WM_KEYDOWN || wParam == Native.WM_SYSKEYDOWN) && (KeyDown != null))
+                    if ((wParam == Native.WM_KEYDOWN || wParam == Native.WM_SYSKEYDOWN) && (this.KeyDown != null))
                     {
-                        KeyDown(this, kea);
+                        this.KeyDown(this, kea);
                     }
-                    else if ((wParam == Native.WM_KEYUP || wParam == Native.WM_SYSKEYUP) && (KeyUp != null))
+                    else if ((wParam == Native.WM_KEYUP || wParam == Native.WM_SYSKEYUP) && (this.KeyUp != null))
                     {
-                        KeyUp(this, kea);
+                        this.KeyUp(this, kea);
                     }
 
                     if (kea.Handled)
@@ -144,9 +134,28 @@ namespace KeyboardLed
                 }
             }
 
-            return Native.CallNextHookEx(hhook, code, wParam, ref lParam);
+            return Native.CallNextHookEx(this.hhook, code, wParam, ref lParam);
         }
 
         #endregion
+
+        /// <summary>The keyboard hook struct.</summary>
+        public struct KeyboardHookStruct
+        {
+            /// <summary>The vk code.</summary>
+            public int VkCode;
+
+            /// <summary>The scan code.</summary>
+            public int ScanCode;
+
+            /// <summary>The flags.</summary>
+            public int Flags;
+
+            /// <summary>The time.</summary>
+            public int Time;
+
+            /// <summary>The dw extra info.</summary>
+            public int DwExtraInfo;
+        }
     }
 }
