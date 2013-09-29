@@ -29,7 +29,15 @@ namespace KeyboardLed
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("发生了不可预料的错误。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }

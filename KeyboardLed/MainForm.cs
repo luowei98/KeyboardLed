@@ -67,28 +67,35 @@ namespace KeyboardLed
         /// <param name="e">The e.</param>
         private void Global_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            try
             {
-                case Keys.Pause:
-                    {
-                        speakerMute = !AudioHelp.IsMute();
-                        speaker.Show(speakerMute);
-                        break;
-                    }
+                switch (e.KeyCode)
+                {
+                    case Keys.Pause:
+                        {
+                            speakerMute = !AudioHelp.IsMute();
+                            speaker.Show(speakerMute);
+                            break;
+                        }
 
-                case Keys.NumLock:
-                    {
-                        numlockVisible = !numlockVisible;
-                        UpdateVisiable();
-                        break;
-                    }
+                    case Keys.NumLock:
+                        {
+                            numlockVisible = !numlockVisible;
+                            UpdateVisiable();
+                            break;
+                        }
 
-                case Keys.CapsLock:
-                    {
-                        capslockVisible = !capslockVisible;
-                        UpdateVisiable();
-                        break;
-                    }
+                    case Keys.CapsLock:
+                        {
+                            capslockVisible = !capslockVisible;
+                            UpdateVisiable();
+                            break;
+                        }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("发生了不可预料的错误。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             e.Handled = false;
