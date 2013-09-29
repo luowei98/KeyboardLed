@@ -71,6 +71,24 @@ namespace KeyboardLed.Properties {
         }
         
         /// <summary>
+        ///   查找类似 发生了不可预料的错误。 的本地化字符串。
+        /// </summary>
+        internal static string ExclamationErrMsg01 {
+            get {
+                return ResourceManager.GetString("ExclamationErrMsg01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        internal static string ExclamationErrTitle {
+            get {
+                return ResourceManager.GetString("ExclamationErrTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap NotNumber {

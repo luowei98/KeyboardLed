@@ -17,6 +17,8 @@ namespace KeyboardLed
     using System.Drawing;
     using System.Windows.Forms;
 
+    using KeyboardLed.Properties;
+
     #endregion
 
     /// <summary>The main form.</summary>
@@ -95,7 +97,7 @@ namespace KeyboardLed
             }
             catch (Exception)
             {
-                MessageBox.Show("发生了不可预料的错误。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(Resources.ExclamationErrMsg01, Resources.ExclamationErrTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             e.Handled = false;
