@@ -29,6 +29,9 @@ namespace KeyboardLed
         /// </summary>
         private IntPtr hhook = IntPtr.Zero;
 
+        /// <summary>The keyboard hook proc.</summary>
+        private KeyboardHookProc keyboardHookProc;
+
         #endregion
 
         #region Constructors and Destructors
@@ -94,7 +97,9 @@ namespace KeyboardLed
         public void Hook()
         {
             IntPtr hInstance = Native.LoadLibrary("User32");
-            this.hhook = Native.SetWindowsHookEx(Native.WH_KEYBOARD_LL, this.HookProc, hInstance, 0);
+
+            this.keyboardHookProc = this.HookProc;
+            this.hhook = Native.SetWindowsHookEx(Native.WH_KEYBOARD_LL, this.keyboardHookProc, hInstance, 0);
         }
 
         /// <summary>
