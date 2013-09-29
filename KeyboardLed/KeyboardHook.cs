@@ -98,6 +98,7 @@ namespace KeyboardLed
         {
             IntPtr hInstance = Native.LoadLibrary("User32");
 
+            // 防止被自动垃圾回收
             this.keyboardHookProc = this.HookProc;
             this.hhook = Native.SetWindowsHookEx(Native.WH_KEYBOARD_LL, this.keyboardHookProc, hInstance, 0);
         }
