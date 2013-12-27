@@ -82,14 +82,14 @@ namespace KeyboardLed
 
                     case Keys.NumLock:
                         {
-                            numlockVisible = !numlockVisible;
+                            numlockVisible = IsKeyLocked(Keys.NumLock);
                             UpdateVisiable();
                             break;
                         }
 
                     case Keys.CapsLock:
                         {
-                            capslockVisible = !capslockVisible;
+                            capslockVisible = !IsKeyLocked(Keys.CapsLock);
                             UpdateVisiable();
                             break;
                         }
