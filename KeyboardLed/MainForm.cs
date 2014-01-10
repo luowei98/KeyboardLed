@@ -55,8 +55,6 @@ namespace KeyboardLed
             capslockVisible = IsKeyLocked(Keys.CapsLock);
             UpdateVisiable();
 
-            SetPosition();
-
             hook.HookedKeys.Add(Keys.CapsLock);
             hook.HookedKeys.Add(Keys.NumLock);
             hook.HookedKeys.Add(Keys.Pause);
@@ -106,6 +104,8 @@ namespace KeyboardLed
         /// <summary>The update visiable.</summary>
         private void UpdateVisiable()
         {
+            SetPosition();
+
             picNumber.Visible = numlockVisible;
             pictCharacter.Visible = capslockVisible;
 
