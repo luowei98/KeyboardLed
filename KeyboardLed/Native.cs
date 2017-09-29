@@ -27,10 +27,14 @@ namespace KeyboardLed
         public const int GWL_EXSTYLE = -20;
 
         /// <summary>The transparent.</summary>
-        public const uint WS_EX_TRANSPARENT = 0x20;
+        public const int WS_EX_TRANSPARENT = 0x20;
 
         /// <summary>The layered.</summary>
-        public const uint WS_EX_LAYERED = 0x80000;
+        public const int WS_EX_LAYERED = 0x80000;
+
+        public const int WS_EX_TOOLWINDOW = 0x80;
+
+        public const int WS_EX_NOACTIVATE = 0x08000000;
 
         /// <summary>The keyboard.</summary>
         public const int WH_KEYBOARD_LL = 13;

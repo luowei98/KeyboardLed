@@ -21,6 +21,18 @@ namespace KeyboardLed
     /// <summary>The trans form.</summary>
     public partial class TransForm : Form
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var Params = base.CreateParams;
+                Params.ExStyle |= Native.WS_EX_TOOLWINDOW | Native.WS_EX_NOACTIVATE     // 不激活
+                                | Native.WS_EX_TRANSPARENT                              // 透明
+                                | Native.WS_EX_LAYERED;                                 // 鼠标透过
+                return Params;
+            }
+        }
+
         /// <summary>Initializes a new instance of the <see cref="TransForm"/> class.</summary>
         public TransForm()
         {
@@ -34,10 +46,11 @@ namespace KeyboardLed
         {
             this.ShowInTaskbar = false;
 
-            var currStyle = Native.GetWindowLong(this.Handle, Native.GWL_EXSTYLE);
-            Native.SetWindowLong(this.Handle, Native.GWL_EXSTYLE, currStyle | Native.WS_EX_TRANSPARENT | Native.WS_EX_LAYERED);
+            //var currStyle = Native.GetWindowLong(this.Handle, Native.GWL_EXSTYLE);
+            //Native.SetWindowLong(this.Handle, Native.GWL_EXSTYLE, currStyle | Native.WS_EX_TRANSPARENT | Native.WS_EX_LAYERED);
 
             this.TopMost = true;
+            this.Focus();
         }
     }
 }

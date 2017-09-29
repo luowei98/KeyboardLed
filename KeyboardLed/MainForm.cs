@@ -60,6 +60,8 @@ namespace KeyboardLed
             hook.HookedKeys.Add(Keys.Pause);
 
             hook.KeyDown += this.Global_KeyDown;
+
+            SetPosition();
         }
 
         /// <summary>The global_ key down.</summary>
@@ -104,8 +106,6 @@ namespace KeyboardLed
         /// <summary>The update visiable.</summary>
         private void UpdateVisiable()
         {
-            SetPosition();
-
             picNumber.Visible = numlockVisible;
             pictCharacter.Visible = capslockVisible;
 
@@ -116,7 +116,7 @@ namespace KeyboardLed
         /// <summary>The set position.</summary>
         private void SetPosition()
         {
-            var x = Screen.PrimaryScreen.Bounds.Right - this.Width + 50;
+            var x = Screen.PrimaryScreen.Bounds.Right - this.Width - 50;
             var y = Screen.PrimaryScreen.Bounds.Bottom - this.Height - 50;
 
             this.Location = new Point(x, y);
