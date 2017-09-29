@@ -39,6 +39,8 @@ namespace KeyboardLed
         /// <summary>The capslock visible.</summary>
         private static bool capslockVisible;
 
+        private long controlDownTime = 0;
+
         /// <summary>Initializes a new instance of the <see cref="MainForm"/> class.</summary>
         public MainForm()
         {
@@ -58,6 +60,7 @@ namespace KeyboardLed
             hook.HookedKeys.Add(Keys.CapsLock);
             hook.HookedKeys.Add(Keys.NumLock);
             hook.HookedKeys.Add(Keys.Pause);
+            hook.HookedKeys.Add(Keys.LControlKey);
 
             hook.KeyDown += this.Global_KeyDown;
 
@@ -74,33 +77,54 @@ namespace KeyboardLed
                 switch (e.KeyCode)
                 {
                     case Keys.Pause:
-                        {
-                            speakerMute = !AudioHelp.IsMute();
-                            speaker.Show(speakerMute);
-                            break;
-                        }
+                    {
+                        speakerMute = !AudioHelp.IsMute();
+                        speaker.Show(speakerMute);
+                        break;
+                    }
 
                     case Keys.NumLock:
-                        {
-                            numlockVisible = IsKeyLocked(Keys.NumLock);
-                            UpdateVisiable();
-                            break;
-                        }
+                    {
+                        numlockVisible = IsKeyLocked(Keys.NumLock);
+                        UpdateVisiable();
+                        break;
+                    }
 
                     case Keys.CapsLock:
+                    {
+                        capslockVisible = !IsKeyLocked(Keys.CapsLock);
+                        UpdateVisiable();
+                        break;
+                    }
+
+                    case Keys.LControlKey:
+                    {
+                        var now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                        if (now - controlDownTime < 500)
                         {
-                            capslockVisible = !IsKeyLocked(Keys.CapsLock);
-                            UpdateVisiable();
-                            break;
+                            LoadShortcutForm();
+                            controlDownTime = 0;
                         }
+                        else
+                        {
+                            controlDownTime = now;
+                        }
+                        break;
+                    }
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show(Resources.ExclamationErrMsg01, Resources.ExclamationErrTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(Resources.ExclamationErrMsg01, Resources.ExclamationErrTitle, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
             }
 
             e.Handled = false;
+        }
+
+        private void LoadShortcutForm()
+        {
+            Console.WriteLine("aaa");
         }
 
         /// <summary>The update visiable.</summary>
