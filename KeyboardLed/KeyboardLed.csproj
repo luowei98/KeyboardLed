@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioHelp.cs" />
-    <Compile Include="IconManager.cs" />
+    <Compile Include="IconHelp.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,7 +60,12 @@
     <Compile Include="Native.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShellIcon.cs" />
+    <Compile Include="ShortcutControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ShortcutControl.designer.cs">
+      <DependentUpon>ShortcutControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShortcutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +90,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShortcutControl.resx">
+      <DependentUpon>ShortcutControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShortcutForm.resx">
       <DependentUpon>ShortcutForm.cs</DependentUpon>
@@ -132,6 +140,10 @@
     <ProjectReference Include="..\CoreAudioApi\CoreAudioApi.csproj">
       <Project>{9f1076aa-63df-4128-9c10-fd65e425c783}</Project>
       <Name>CoreAudioApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IconLib\IconLib.csproj">
+      <Project>{ce53747f-d2e6-4e1e-9ef4-a0ae02671b1d}</Project>
+      <Name>IconLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

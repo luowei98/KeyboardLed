@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.IconLib.Exceptions;
 using System.Drawing.Imaging;
 using System.Collections;
+using IconLib.System.Drawing.IconLib;
 
 namespace System.Drawing.IconLib.EncodingFormats
 {
