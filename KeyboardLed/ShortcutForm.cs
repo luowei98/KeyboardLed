@@ -62,7 +62,7 @@ namespace KeyboardLed
             items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"D:\Desktop\ShellIcon.cs");
+            items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
