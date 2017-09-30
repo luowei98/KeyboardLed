@@ -36,9 +36,9 @@ namespace KeyboardLed
             {
                 Application.Run(new MainForm());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show(Resources.ExclamationErrMsg01, Resources.ExclamationErrTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(Resources.ExclamationErrMsg01 + Environment.NewLine + ex.StackTrace, Resources.ExclamationErrTitle, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

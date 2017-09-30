@@ -27,6 +27,8 @@ namespace KeyboardLed
         /// <summary>The speaker.</summary>
         private static readonly SpeakerForm speaker = new SpeakerForm();
 
+        private static readonly ShortcutForm shortcut = new ShortcutForm();
+
         /// <summary>The hook.</summary>
         private static readonly KeyboardHook hook = new KeyboardHook();
 
@@ -62,7 +64,7 @@ namespace KeyboardLed
             hook.HookedKeys.Add(Keys.Pause);
             hook.HookedKeys.Add(Keys.LControlKey);
 
-            hook.KeyDown += this.Global_KeyDown;
+            hook.KeyUp += this.Global_KeyDown;
 
             SetPosition();
         }
@@ -92,7 +94,7 @@ namespace KeyboardLed
 
                     case Keys.CapsLock:
                     {
-                        capslockVisible = !IsKeyLocked(Keys.CapsLock);
+                        capslockVisible = IsKeyLocked(Keys.CapsLock);
                         UpdateVisiable();
                         break;
                     }
@@ -102,7 +104,8 @@ namespace KeyboardLed
                         var now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                         if (now - controlDownTime < 500)
                         {
-                            LoadShortcutForm();
+                            shortcut.Show();
+                            shortcut.Activate();
                             controlDownTime = 0;
                         }
                         else
@@ -120,11 +123,6 @@ namespace KeyboardLed
             }
 
             e.Handled = false;
-        }
-
-        private void LoadShortcutForm()
-        {
-            Console.WriteLine("aaa");
         }
 
         /// <summary>The update visiable.</summary>

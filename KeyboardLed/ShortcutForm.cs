@@ -9,6 +9,10 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Remoting.Messaging;
+
 namespace KeyboardLed
 {
     #region using statements
@@ -20,86 +24,93 @@ namespace KeyboardLed
     #endregion
 
     /// <summary>The shortcut form.</summary>
-    public partial class ShortcutForm : TransForm
+    public partial class ShortcutForm : Form
     {
-        /// <summary>The location.</summary>
-        private Point location;
+        private const int shortcutIconSize = 128;
+        private const int col = 8;
+        private const int row = 4;
 
-        /// <summary>The curr opacity.</summary>
-        private double currOpacity;
+        public sealed override Size MaximumSize
+        {
+            get { return base.MaximumSize; }
+            set { base.MaximumSize = value; }
+        }
+
+        public List<string> items { get; set; }
 
         /// <summary>Initializes a new instance of the <see cref="ShortcutForm"/> class.</summary>
         public ShortcutForm()
         {
             InitializeComponent();
-        }
 
-        /// <summary>The set location.</summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        public void SetLocation(int x, int y)
-        {
-            location = new Point(x, y);
-        }
+            // cover screen
+            var area = Screen.FromControl(this).WorkingArea;
+            this.Width = area.Size.Width;
+            this.Height = area.Size.Height;
+            this.Location = area.Location;
 
-        /// <summary>The show.</summary>
-        /// <param name="mute">The mute.</param>
-        public void Show(bool mute)
-        {
-            this.Init();
+            items = new List<string>();
+            items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
 
-            //this.picSpeaker.Image = mute ? Properties.Resources.SpeakerOff : Properties.Resources.SpeakerLouder;
-            AudioHelp.SetMute(mute);
-
-            Application.DoEvents();
-
-            this.Show();
-            this.Location = location;
-
-            //CloseTimer.Enabled = true;
-        }
-
-        /// <summary>The speaker form_ load.</summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void SpeakerForm_Load(object sender, EventArgs e)
-        {
-            currOpacity = this.Opacity;
-        }
-
-        /// <summary>The close timer_ tick.</summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void CloseTimer_Tick(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            //FadeoutTimer.Enabled = true;
-        }
-
-        /// <summary>The fadeout timer_ tick.</summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void FadeoutTimer_Tick(object sender, EventArgs e)
-        {
-            if (currOpacity > 0)
+            // init shortcut
+            var left = (this.Width / col - shortcutIconSize) / 2;
+            var top = (this.Height / row - shortcutIconSize) / 2;
+            foreach (var i in items)
             {
-                currOpacity -= 0.01;
-                this.Opacity = currOpacity;
-            }
-            else
-            {
-                this.Init();
+                var pic = new PictureBox
+                {
+                    Location = new Point(left, top),
+                    Size = new Size(128, 128),
+                    TabStop = true,
+                    BackgroundImage = getIcon(i),
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    BackColor = Color.Black,
+                };
+                pic.Click += this.pictureBox1_Click;
+                this.Controls.Add(pic);
             }
         }
 
-        /// <summary>The init.</summary>
-        private void Init()
+        private void ShortcutForm_Deactivate(object sender, EventArgs e)
         {
-            //CloseTimer.Enabled = false;
-            //FadeoutTimer.Enabled = false;
             this.Hide();
-            this.Opacity = 0.8;
-            this.currOpacity = 0.8;
+        }
+
+        private void ShortcutForm_Load(object sender, EventArgs e)
+        {
+            this.ShowInTaskbar = false;
+            this.TopMost = true;
+        }
+
+        private Bitmap getIcon(string path)
+        {
+            //var fi = File.GetAttributes(path);
+            //var o = Icon.ExtractAssociatedIcon((fi & FileAttributes.Directory) == FileAttributes.Directory ? @"C:\WINDOWS\system32\imageres.dll" : path);
+            var o = ShellIcon.GetLargeFolderIcon();
+
+            return o?.ToBitmap();
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("aaa");
+        }
+
+        private void ShortcutForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Hide();
+            }
+        }
+
+        private void ShortcutForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Hide();
+            }
         }
     }
 }
