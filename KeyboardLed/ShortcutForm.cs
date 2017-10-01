@@ -52,15 +52,16 @@ namespace KeyboardLed
             this.Location = area.Location;
 
             items = new List<string>();
+            //items.Add(@"D:\Desktop\ShellIcon.cs");
             items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
+            items.Add(@"D:\GreenSoftware\Everything\Everything.exe");
+            items.Add(@"D:\GreenSoftware\CubePrimer\CubePrimer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Program Files (x86)\Microsoft VS Code\Code.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
-            items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
@@ -121,16 +122,6 @@ namespace KeyboardLed
         private string GetCaption(string path, bool isDir)
         {
             return isDir ? path : Path.GetFileNameWithoutExtension(path);
-        }
-
-        private Bitmap getIcon(string path)
-        {
-            //var fi = File.GetAttributes(path);
-            //var o = Icon.ExtractAssociatedIcon((fi & FileAttributes.Directory) == FileAttributes.Directory ? @"C:\WINDOWS\system32\imageres.dll" : path);
-            var o = IconHelp.GetHighestIcon(@"C:\WINDOWS\system32\imageres.dll", 1);
-
-            return o?.ToBitmap();
-
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

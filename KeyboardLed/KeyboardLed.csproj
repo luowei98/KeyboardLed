@@ -141,10 +141,6 @@
       <Project>{9f1076aa-63df-4128-9c10-fd65e425c783}</Project>
       <Name>CoreAudioApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IconLib\IconLib.csproj">
-      <Project>{ce53747f-d2e6-4e1e-9ef4-a0ae02671b1d}</Project>
-      <Name>IconLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Background.png" />
