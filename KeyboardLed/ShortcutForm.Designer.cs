@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShortcutForm));
             this.SuspendLayout();
             // 
             // ShortcutForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -42,11 +41,12 @@
             this.Name = "ShortcutForm";
             this.Opacity = 0.8D;
             this.ShowInTaskbar = false;
-            this.Text = "w";
+            this.Text = "ShortcutForm";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.SystemColors.Control;
             this.Deactivate += new System.EventHandler(this.ShortcutForm_Deactivate);
             this.Load += new System.EventHandler(this.ShortcutForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ShortcutForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ShortcutForm_KeyUp);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ShortcutForm_MouseUp);
             this.ResumeLayout(false);
