@@ -12,32 +12,6 @@ namespace KeyboardLed
 {
     public class IconHelp
     {
-        //public static Icon GetHighestIcon(string path, int index = 0)
-        //{
-        //    var icons = new MultiIcon();
-        //    icons.Load(path);
-
-        //    if (icons.Count <= index)
-        //    {
-        //        return null;
-        //    }
-
-        //    var icon = icons[index];
-        //    IconImage image = null;
-        //    foreach (var i in icon)
-        //    {
-        //        if (image != null && i.Size.Width < image.Size.Width)
-        //        {
-        //            continue;
-        //        }
-        //        image = i;
-        //    }
-
-        //    return image?.Icon;
-
-        //    //return null;
-        //}
-
         //see the msdn link below for details on the parameters for this api function
         //https://msdn.microsoft.com/en-us/library/windows/desktop/bb762149%28v=vs.85%29.aspx
         [DllImport("Shell32.dll", EntryPoint = "SHDefExtractIconW")]
@@ -55,6 +29,7 @@ namespace KeyboardLed
 
         public static Icon GetHighestIcon(string path, int index = 0)
         {
+            // get 32*32 & 128*128 size icon
             var size = (uint)((32 << 16) | (128 & 0xffff));
 
             var hLrgIcon = IntPtr.Zero;
