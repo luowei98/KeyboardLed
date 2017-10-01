@@ -84,7 +84,7 @@ namespace KeyboardLed
                 {
                     Location = new Point(xMargin + xStart + xOffset * xy.X, yMargin + yStart + yOffset * xy.Y),
                     TabStop = true,
-                };
+            };
                 if (IsDirectory(i))
                 {
                     shortcut.Init(@"C:\WINDOWS\system32\imageres.dll", GetCaption(i, true), 5);
@@ -131,7 +131,7 @@ namespace KeyboardLed
 
         private void ShortcutForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if (e.KeyCode != Keys.ControlKey)
             {
                 this.Hide();
             }
@@ -144,6 +144,13 @@ namespace KeyboardLed
                 this.Hide();
             }
         }
-        
+
+        private void ShortcutForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                this.Hide();
+            }
+        }
     }
 }
