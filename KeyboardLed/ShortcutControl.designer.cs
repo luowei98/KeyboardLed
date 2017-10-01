@@ -43,19 +43,23 @@
             this.pictureBox.Size = new System.Drawing.Size(128, 128);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            this.pictureBox.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
+            this.pictureBox.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
             // label
             // 
             this.label.BackColor = System.Drawing.Color.Black;
             this.label.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label.ForeColor = System.Drawing.Color.White;
+            this.label.Font = new System.Drawing.Font("Consolas", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label.ForeColor = System.Drawing.Color.Gainsboro;
             this.label.Location = new System.Drawing.Point(0, 128);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(128, 30);
             this.label.TabIndex = 1;
             this.label.Text = "label";
             this.label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label.MouseEnter += new System.EventHandler(this.label_MouseEnter);
+            this.label.MouseLeave += new System.EventHandler(this.label_MouseLeave);
             // 
             // ShortcutControl
             // 

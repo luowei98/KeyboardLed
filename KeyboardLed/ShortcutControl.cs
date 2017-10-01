@@ -53,6 +53,26 @@ namespace KeyboardLed
                 pictureBox.Click -= value;
                 label.Click -= value;
             }
-        } 
+        }
+
+        private void label_MouseEnter(object sender, EventArgs e)
+        {
+            label.ForeColor = Color.White;
+        }
+
+        private void label_MouseLeave(object sender, EventArgs e)
+        {
+            label.ForeColor = Color.Gainsboro;
+        }
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            label.ForeColor = Color.White;
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            label.ForeColor = Color.Gainsboro;
+        }
     }
 }
