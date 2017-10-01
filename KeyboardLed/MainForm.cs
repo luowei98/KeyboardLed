@@ -54,6 +54,9 @@ namespace KeyboardLed
         /// <param name="e">The e.</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // for unknow reason width be changed to 136, forced to 64
+            this.ClientSize = new Size(64, 144);
+
             speakerMute = !AudioHelp.IsMute();
             numlockVisible = !IsKeyLocked(Keys.NumLock);
             capslockVisible = IsKeyLocked(Keys.CapsLock);
@@ -64,7 +67,8 @@ namespace KeyboardLed
             hook.HookedKeys.Add(Keys.Pause);
             hook.HookedKeys.Add(Keys.LControlKey);
 
-            hook.KeyUp += this.Global_KeyDown;
+            hook.KeyDown += this.Global_KeyDown;
+            hook.KeyUp += this.Global_KeyUp;
 
             SetPosition();
         }
@@ -78,17 +82,36 @@ namespace KeyboardLed
             {
                 switch (e.KeyCode)
                 {
-                    case Keys.Pause:
-                    {
-                        speakerMute = !AudioHelp.IsMute();
-                        speaker.Show(speakerMute);
-                        break;
-                    }
-
                     case Keys.NumLock:
                     {
                         numlockVisible = IsKeyLocked(Keys.NumLock);
                         UpdateVisiable();
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(Resources.ExclamationErrMsg01, Resources.ExclamationErrTitle, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+            }
+
+            e.Handled = false;
+        }
+
+        /// <summary>The global_ key up.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void Global_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Pause:
+                    {
+                        speakerMute = !AudioHelp.IsMute();
+                        speaker.Show(speakerMute);
                         break;
                     }
 
@@ -138,8 +161,8 @@ namespace KeyboardLed
         /// <summary>The set position.</summary>
         private void SetPosition()
         {
-            var x = Screen.PrimaryScreen.Bounds.Right - this.Width - 50;
-            var y = Screen.PrimaryScreen.Bounds.Bottom - this.Height - 50;
+            var x = Screen.PrimaryScreen.Bounds.Right - this.ClientSize.Width - 50;
+            var y = Screen.PrimaryScreen.Bounds.Bottom - this.ClientSize.Height - 50;
 
             this.Location = new Point(x, y);
 
