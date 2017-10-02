@@ -52,14 +52,13 @@ namespace KeyboardLed
             this.Location = area.Location;
 
             items = new List<string>();
-            //items.Add(@"D:\Desktop\ShellIcon.cs");
-            items.Add(@"C:\Windows\explorer.exe");
+            items.Add(@"D:\Desktop\1.docx");
             items.Add(@"D:\GreenSoftware\Everything\Everything.exe");
             items.Add(@"D:\GreenSoftware\CubePrimer\CubePrimer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Program Files (x86)\Microsoft VS Code\Code.exe");
             items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
+            items.Add(@"D:\Desktop\ShellIcon.cs");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
             items.Add(@"C:\Windows\explorer.exe");
@@ -82,22 +81,16 @@ namespace KeyboardLed
             {
                 var shortcut = new ShortcutControl()
                 {
-                    Location = new Point(xMargin + xStart + xOffset * xy.X, yMargin + yStart + yOffset * xy.Y),
+                    Location = new Point(xMargin + xStart + xOffset*xy.X, yMargin + yStart + yOffset*xy.Y),
                     TabStop = true,
-            };
-                if (IsDirectory(i))
-                {
-                    shortcut.Init(@"C:\WINDOWS\system32\imageres.dll", GetCaption(i, true), 5);
-                }
-                else
-                {
-                    shortcut.Init(i, GetCaption(i, false));
-                }
+                };
+
+                shortcut.Init(i);
                 shortcut.IconClick += this.pictureBox1_Click;
                 this.Controls.Add(shortcut);
 
                 if (++xy.X < col) continue;
-                xy.X = xy.X % col;
+                xy.X = xy.X%col;
                 xy.Y++;
             }
         }
@@ -111,17 +104,6 @@ namespace KeyboardLed
         {
             this.ShowInTaskbar = false;
             this.TopMost = true;
-        }
-
-        private bool IsDirectory(string path)
-        {
-            FileAttributes attr = File.GetAttributes(path);
-            return attr.HasFlag(FileAttributes.Directory);
-        }
-
-        private string GetCaption(string path, bool isDir)
-        {
-            return isDir ? path : Path.GetFileNameWithoutExtension(path);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

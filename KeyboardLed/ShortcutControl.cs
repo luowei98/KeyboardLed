@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace KeyboardLed
@@ -8,8 +10,11 @@ namespace KeyboardLed
     {
         public static int DefaultWidth = 128;
 
+        private readonly string[] haveIconFile = {".dll", ".exe"};
+
         public new int Width
         {
+            // ReSharper disable once FunctionRecursiveOnAllPaths
             get { return this.Width; }
             set
             {
@@ -18,28 +23,62 @@ namespace KeyboardLed
                 base.Width = value;
             }
         }
+
         public string Path { get; private set; }
+
         public string Caption { get; private set; }
+
 
         public ShortcutControl()
         {
             InitializeComponent();
             this.Width = DefaultWidth;
         }
-        public void Init(string path, string caption, int iconIdx = 0)
+
+
+        public void Init(string path)
         {
             this.Path = path;
-            this.Caption = caption;
 
-            pictureBox.BackgroundImage = getImage(path, iconIdx);
-            label.Text = caption;
+            Image img;
+            if (IsDirectory(path))
+            {
+                img = IconHelp.GetFolderIcon(path)?.ToBitmap();
+            }
+            else
+            {
+                var ext = System.IO.Path.GetExtension(path);
+                if (ext != null && haveIconFile.Contains(ext.ToLower()))
+                {
+                    img = IconHelp.GetHighestIcon(path)?.ToBitmap();
+                }
+                else
+                {
+                    img = IconHelp.GetHighestExtensionIcon(path)?.ToBitmap();
+                }
+                if (img == null)
+                {
+                    img = IconHelp.GetDefaultIcon()?.ToBitmap();
+                }
+            }
+
+            pictureBox.BackgroundImage = img;
+            label.Text = InitCaption(path);
         }
 
-        private Image getImage(string path, int index)
+        public static bool IsDirectory(string path)
         {
-            var icon = IconHelp.GetHighestIcon(path, index);
-            return icon != null ? icon.ToBitmap() : null;
+            FileAttributes attr = File.GetAttributes(path);
+            return attr.HasFlag(FileAttributes.Directory);
         }
+
+        private string InitCaption(string path)
+        {
+            this.Caption = IsDirectory(path) ? path : System.IO.Path.GetFileNameWithoutExtension(path);
+
+            return this.Caption;
+        }
+
 
         public event EventHandler IconClick
         {
@@ -54,6 +93,7 @@ namespace KeyboardLed
                 label.Click -= value;
             }
         }
+
 
         private void label_MouseEnter(object sender, EventArgs e)
         {
