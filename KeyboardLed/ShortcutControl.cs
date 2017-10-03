@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace KeyboardLed
@@ -188,6 +187,7 @@ namespace KeyboardLed
         {
             if (e.Button == MouseButtons.Left)
             {
+                this.Parent.Hide();
                 System.Diagnostics.Process.Start(this.Path);
             }
             if (e.Button == MouseButtons.Right)
