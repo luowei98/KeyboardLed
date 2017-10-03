@@ -28,13 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.RefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RefreshToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 26);
+            // 
+            // RefreshToolStripMenuItem
+            // 
+            this.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem";
+            this.RefreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RefreshToolStripMenuItem.Text = "刷新";
+            this.RefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
             // ShortcutForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ContextMenuStrip = this.contextMenuStrip;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -49,10 +68,14 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ShortcutForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ShortcutForm_KeyUp);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ShortcutForm_MouseUp);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem RefreshToolStripMenuItem;
     }
 }

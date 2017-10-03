@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace KeyboardLed
 {
@@ -50,31 +51,55 @@ namespace KeyboardLed
             this.Height = area.Size.Height;
             this.Location = area.Location;
 
-            items = getItems();
-
-            // init shortcut
-            var xy = new Point(0, 0);
-            var xOffset = (this.Width - xMargin * 2) / col;
-            var yOffset = (this.Height - yMargin * 2) / row;
-            var xStart = (xOffset - ShortcutControl.DefaultWidth) / 2;
-            var yStart = (yOffset - ShortcutControl.DefaultWidth) / 2;
-            foreach (var i in items)
-            {
-                var shortcut = new ShortcutControl()
-                {
-                    Location = new Point(xMargin + xStart + xOffset*xy.X, yMargin + yStart + yOffset*xy.Y),
-                    TabStop = true,
-                };
-
-                shortcut.Init(i);
-                this.Controls.Add(shortcut);
-
-                if (++xy.X < col) continue;
-                xy.X = xy.X%col;
-                xy.Y++;
-            }
+            loadItems();
         }
 
+
+        private void loadItems()
+        {
+            this.UseWaitCursor = true;
+            
+            try
+            {
+                // clear items
+                var ctrls = this.Controls
+                    .Cast<Control>()
+                    .Where(ctrl => ctrl.GetType() == typeof(ShortcutControl))
+                    .ToList();
+                foreach (var ctrl in ctrls)
+                {
+                    this.Controls.Remove(ctrl);
+                }
+
+                items = getItems();
+
+                // init shortcut
+                var xy = new Point(0, 0);
+                var xOffset = (this.Width - xMargin*2)/col;
+                var yOffset = (this.Height - yMargin*2)/row;
+                var xStart = (xOffset - ShortcutControl.DefaultWidth)/2;
+                var yStart = (yOffset - ShortcutControl.DefaultWidth)/2;
+                foreach (var i in items)
+                {
+                    var shortcut = new ShortcutControl()
+                    {
+                        Location = new Point(xMargin + xStart + xOffset*xy.X, yMargin + yStart + yOffset*xy.Y),
+                        TabStop = true,
+                    };
+
+                    shortcut.Init(i);
+                    this.Controls.Add(shortcut);
+
+                    if (++xy.X < col) continue;
+                    xy.X = xy.X%col;
+                    xy.Y++;
+                }
+            }
+            finally
+            {
+                this.UseWaitCursor = false;
+            }
+        }
 
         private List<string> getItems()
         {
@@ -127,10 +152,15 @@ namespace KeyboardLed
 
         private void ShortcutForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey)
-            {
-                this.Hide();
-            }
+            //if (e.KeyCode == Keys.ControlKey)
+            //{
+            //    this.Hide();
+            //}
+        }
+
+        private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            loadItems();
         }
     }
 }
