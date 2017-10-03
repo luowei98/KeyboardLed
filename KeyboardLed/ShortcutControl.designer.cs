@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.label = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,5 +81,6 @@
 
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Label label;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

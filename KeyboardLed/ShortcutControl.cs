@@ -70,6 +70,9 @@ namespace KeyboardLed
             }
 
             pictureBox.BackgroundImage = img;
+
+            toolTip.SetToolTip(pictureBox, path);
+            toolTip.SetToolTip(label, path);
         }
 
         private void setPathType()
@@ -183,6 +186,19 @@ namespace KeyboardLed
 
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                switch (this.PathType)
+                {
+                    case PathTypeEnum.Folder:
+                        //caption = this.Path;
+                        break;
+                    case PathTypeEnum.Exe:
+                    case PathTypeEnum.Other:
+                        System.Diagnostics.Process.Start(this.Path);
+                        break;
+                }
+            }
             if (e.Button == MouseButtons.Right)
             {
                 var ctxMenu = new ShellContextMenu();
