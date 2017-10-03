@@ -10,9 +10,7 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Drawing.Text;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 
 namespace KeyboardLed
 {
@@ -31,7 +29,7 @@ namespace KeyboardLed
         private const int row = 4;
         private const int xMargin = 100;
         private const int yMargin = 60;
-        private string shortcutFileName = "shortcuts.txt";
+        private const string shortcutFileName = "shortcuts.txt";
 
         public sealed override Size MaximumSize
         {
