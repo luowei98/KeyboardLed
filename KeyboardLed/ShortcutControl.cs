@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace KeyboardLed
@@ -178,6 +179,17 @@ namespace KeyboardLed
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             label.ForeColor = Color.Gainsboro;
+        }
+
+        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var ctxMenu = new ShellContextMenu();
+                FileInfo[] fileInfos = {new FileInfo(this.Path)};
+
+                ctxMenu.ShowContextMenu(fileInfos, this.PointToScreen(new Point(e.X, e.Y)));
+            }
         }
     }
 }

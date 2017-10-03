@@ -109,7 +109,7 @@ namespace KeyboardLed
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("bbb");
+            //MessageBox.Show("bbb");
         }
 
         private void ShortcutForm_KeyUp(object sender, KeyEventArgs e)

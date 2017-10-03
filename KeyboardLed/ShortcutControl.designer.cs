@@ -43,6 +43,7 @@
             this.pictureBox.Size = new System.Drawing.Size(128, 128);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseClick);
             this.pictureBox.MouseEnter += new System.EventHandler(this.pictureBox_MouseEnter);
             this.pictureBox.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             // 
