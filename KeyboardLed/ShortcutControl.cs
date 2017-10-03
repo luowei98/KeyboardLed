@@ -188,16 +188,7 @@ namespace KeyboardLed
         {
             if (e.Button == MouseButtons.Left)
             {
-                switch (this.PathType)
-                {
-                    case PathTypeEnum.Folder:
-                        //caption = this.Path;
-                        break;
-                    case PathTypeEnum.Exe:
-                    case PathTypeEnum.Other:
-                        System.Diagnostics.Process.Start(this.Path);
-                        break;
-                }
+                System.Diagnostics.Process.Start(this.Path);
             }
             if (e.Button == MouseButtons.Right)
             {

@@ -87,7 +87,6 @@ namespace KeyboardLed
                 };
 
                 shortcut.Init(i);
-                shortcut.IconClick += this.pictureBox1_Click;
                 this.Controls.Add(shortcut);
 
                 if (++xy.X < col) continue;
@@ -105,11 +104,6 @@ namespace KeyboardLed
         {
             this.ShowInTaskbar = false;
             this.TopMost = true;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            //MessageBox.Show("bbb");
         }
 
         private void ShortcutForm_KeyUp(object sender, KeyEventArgs e)
