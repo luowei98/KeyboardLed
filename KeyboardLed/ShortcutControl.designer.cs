@@ -53,7 +53,7 @@
             // 
             this.label.BackColor = System.Drawing.Color.Black;
             this.label.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label.Font = new System.Drawing.Font("Consolas", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label.ForeColor = System.Drawing.Color.Gainsboro;
             this.label.Location = new System.Drawing.Point(0, 128);
             this.label.Name = "label";

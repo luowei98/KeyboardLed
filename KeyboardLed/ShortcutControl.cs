@@ -32,6 +32,7 @@ namespace KeyboardLed
         }
 
         public string Path { get; private set; }
+        public string Caption { get; private set; }
 
 
         public ShortcutControl()
@@ -43,21 +44,28 @@ namespace KeyboardLed
 
         public void Init(string path)
         {
-            this.Path = path;
+            var p = path.Split("|".ToCharArray());
+
+            this.Path = p[0];
+            var caption = "";
+            if (p.Length > 1)
+            {
+                caption = p[1];
+            }
             setPathType();
-            setCaption();
+            setCaption(caption);
 
             Image img;
             switch (this.PathType)
             {
                 case PathTypeEnum.Folder:
-                    img = IconHelp.GetFolderIcon(path)?.ToBitmap();
+                    img = IconHelp.GetFolderIcon(this.Path)?.ToBitmap();
                     break;
                 case PathTypeEnum.Exe:
-                    img = IconHelp.GetHighestIcon(path)?.ToBitmap();
+                    img = IconHelp.GetHighestIcon(this.Path)?.ToBitmap();
                     break;
                 case PathTypeEnum.Other:
-                    img = IconHelp.GetHighestExtensionIcon(path)?.ToBitmap();
+                    img = IconHelp.GetHighestExtensionIcon(this.Path)?.ToBitmap();
                     break;
                 default:
                     img = null;
@@ -70,8 +78,8 @@ namespace KeyboardLed
 
             pictureBox.BackgroundImage = img;
 
-            toolTip.SetToolTip(pictureBox, path);
-            toolTip.SetToolTip(label, path);
+            toolTip.SetToolTip(pictureBox, this.Path);
+            toolTip.SetToolTip(label, this.Path);
         }
 
         private void setPathType()
@@ -107,20 +115,22 @@ namespace KeyboardLed
             }
         }
 
-        private void setCaption()
+        private void setCaption(string caption)
         {
-            var caption = "";
-            switch (this.PathType)
+            if (caption.Length == 0)
             {
-                case PathTypeEnum.Folder:
-                    caption = this.Path;
-                    break;
-                case PathTypeEnum.Exe:
-                    caption = System.IO.Path.GetFileNameWithoutExtension(this.Path);
-                    break;
-                case PathTypeEnum.Other:
-                    caption = System.IO.Path.GetFileName(this.Path);
-                    break;
+                switch (this.PathType)
+                {
+                    case PathTypeEnum.Folder:
+                        caption = this.Path;
+                        break;
+                    case PathTypeEnum.Exe:
+                        caption = System.IO.Path.GetFileNameWithoutExtension(this.Path);
+                        break;
+                    case PathTypeEnum.Other:
+                        caption = System.IO.Path.GetFileName(this.Path);
+                        break;
+                }
             }
 
             label.Text = truncateText(caption);
