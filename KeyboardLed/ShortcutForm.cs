@@ -31,6 +31,7 @@ namespace KeyboardLed
         private const int row = 4;
         private const int xMargin = 100;
         private const int yMargin = 60;
+        private string shortcutFileName = "shortcuts.txt";
 
         public sealed override Size MaximumSize
         {
@@ -51,26 +52,7 @@ namespace KeyboardLed
             this.Height = area.Size.Height;
             this.Location = area.Location;
 
-            items = new List<string>();
-            items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
-            items.Add(@"D:\Desktop\1.docx");
-            items.Add(@"D:\Desktop");
-            items.Add(@"D:\GreenSoftware\Everything\Everything.exe");
-            items.Add(@"D:\GreenSoftware\CubePrimer\CubePrimer.exe");
-            items.Add(@"D:\GreenSoftware\Xshell\XshellPortable.exe");
-            items.Add(@"C:\Program Files (x86)\Microsoft VS Code\Code.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"D:\Desktop\ShellIcon.cs");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
+            items = getItems();
 
             // init shortcut
             var xy = new Point(0, 0);
@@ -94,6 +76,29 @@ namespace KeyboardLed
                 xy.Y++;
             }
         }
+
+
+        private List<string> getItems()
+        {
+            var dir = Path.GetDirectoryName(Application.ExecutablePath);
+            if (dir == null)
+            {
+                return new List<string>();
+            }
+
+            var path = Path.Combine(dir, shortcutFileName);
+            if (!File.Exists(path))
+            {
+                return new List<string>();
+            }
+
+            var lines = File.ReadAllLines(path);
+            var shortcuts = new List<string>();
+            shortcuts.AddRange(lines);
+
+            return shortcuts;
+        }
+
 
         private void ShortcutForm_Deactivate(object sender, EventArgs e)
         {
