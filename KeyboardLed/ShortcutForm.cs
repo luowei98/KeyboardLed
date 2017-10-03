@@ -52,15 +52,16 @@ namespace KeyboardLed
             this.Location = area.Location;
 
             items = new List<string>();
+            items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
             items.Add(@"D:\Desktop\1.docx");
+            items.Add(@"D:\Desktop");
             items.Add(@"D:\GreenSoftware\Everything\Everything.exe");
             items.Add(@"D:\GreenSoftware\CubePrimer\CubePrimer.exe");
-            items.Add(@"C:\Windows\explorer.exe");
+            items.Add(@"D:\GreenSoftware\Xshell\XshellPortable.exe");
             items.Add(@"C:\Program Files (x86)\Microsoft VS Code\Code.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"D:\Desktop\ShellIcon.cs");
             items.Add(@"C:\Windows\explorer.exe");
-            items.Add(@"D:\Documents\Visual Studio 2015\Projects\KeyboardLed");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
             items.Add(@"C:\Windows\explorer.exe");
