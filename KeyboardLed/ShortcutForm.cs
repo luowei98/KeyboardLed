@@ -11,7 +11,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace KeyboardLed
 {
@@ -31,6 +30,8 @@ namespace KeyboardLed
         private const int xMargin = 100;
         private const int yMargin = 60;
         private const string shortcutFileName = "shortcuts.txt";
+
+        private readonly List<ShortcutControl> shortcutList = new List<ShortcutControl>();
 
         public sealed override Size MaximumSize
         {
@@ -58,18 +59,15 @@ namespace KeyboardLed
         private void loadItems()
         {
             this.UseWaitCursor = true;
-            
+
             try
             {
                 // clear items
-                var ctrls = this.Controls
-                    .Cast<Control>()
-                    .Where(ctrl => ctrl.GetType() == typeof(ShortcutControl))
-                    .ToList();
-                foreach (var ctrl in ctrls)
+                foreach (var ctrl in shortcutList)
                 {
                     this.Controls.Remove(ctrl);
                 }
+                shortcutList.Clear();
 
                 items = getItems();
 
@@ -89,6 +87,8 @@ namespace KeyboardLed
 
                     shortcut.Init(i);
                     this.Controls.Add(shortcut);
+
+                    shortcutList.Add(shortcut);
 
                     if (++xy.X < col) continue;
                     xy.X = xy.X%col;
@@ -123,23 +123,11 @@ namespace KeyboardLed
         }
 
 
-        private void ShortcutForm_Deactivate(object sender, EventArgs e)
-        {
-            this.Hide();
-        }
-
         private void ShortcutForm_Load(object sender, EventArgs e)
         {
+            textBox.Hide();
             this.ShowInTaskbar = false;
             this.TopMost = true;
-        }
-
-        private void ShortcutForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.ControlKey)
-            {
-                this.Hide();
-            }
         }
 
         private void ShortcutForm_MouseUp(object sender, MouseEventArgs e)
@@ -150,17 +138,57 @@ namespace KeyboardLed
             }
         }
 
-        private void ShortcutForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            //if (e.KeyCode == Keys.ControlKey)
-            //{
-            //    this.Hide();
-            //}
-        }
-
         private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             loadItems();
+        }
+
+        private void ShortcutForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (int) Keys.Enter)
+            {
+                foreach (var shortcut in shortcutList)
+                {
+                    if (!shortcut.Visible) continue;
+                    this.Hide();
+                    e.Handled = true;
+                    shortcut.Run();
+                }
+            }
+            else if (e.KeyChar == (int) Keys.Escape)
+            {
+                this.Hide();
+                e.Handled = true;
+            }
+            else if (!textBox.Visible)
+            {
+                textBox.Text = e.KeyChar.ToString();
+                textBox.SelectionStart = textBox.TextLength;
+                textBox.Show();
+                textBox.Focus();
+            }
+        }
+
+        private void ShortcutForm_VisibleChanged(object sender, EventArgs e)
+        {
+            textBox.Text = "";
+            textBox.Visible = false;
+            this.Refresh();
+        }
+
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox.Text == "")
+            {
+                textBox.Visible = false;
+            }
+
+            foreach (var shortcut in shortcutList)
+            {
+                shortcut.Visible =
+                    shortcut.Caption.IndexOf(textBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) > -1;
+            }
         }
     }
 }

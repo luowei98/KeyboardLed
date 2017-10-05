@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -133,7 +134,8 @@ namespace KeyboardLed
                 }
             }
 
-            label.Text = truncateText(caption);
+            this.Caption = truncateText(caption);
+            label.Text = this.Caption;
         }
 
         private string truncateText(string text)
@@ -155,6 +157,32 @@ namespace KeyboardLed
             }
 
             return startText + text.Substring(text.Length - tailStart + 1);
+        }
+
+        public void Run()
+        {
+            if (string.IsNullOrEmpty(this.Path))
+            {
+                return;
+            }
+            var dir = System.IO.Path.GetDirectoryName(this.Path);
+
+            if (this.PathType == PathTypeEnum.Exe)
+            {
+                var psi = new ProcessStartInfo(this.Path)
+                {
+                    UseShellExecute = false,
+                };
+                if (!string.IsNullOrEmpty(dir))
+                {
+                    psi.WorkingDirectory = dir;
+                }
+                Process.Start(psi);
+            }
+            else
+            {
+                Process.Start(this.Path);
+            }
         }
 
 
@@ -198,7 +226,7 @@ namespace KeyboardLed
             if (e.Button == MouseButtons.Left)
             {
                 this.Parent.Hide();
-                System.Diagnostics.Process.Start(this.Path);
+                Run();
             }
             if (e.Button == MouseButtons.Right)
             {
