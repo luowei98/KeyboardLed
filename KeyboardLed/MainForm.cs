@@ -57,7 +57,7 @@ namespace KeyboardLed
             // for unknow reason width be changed to 136, forced to 64
             this.ClientSize = new Size(64, 144);
 
-            speakerMute = !AudioHelp.IsMute();
+            speakerMute = AudioHelp.IsMute();
             numlockVisible = !IsKeyLocked(Keys.NumLock);
             capslockVisible = IsKeyLocked(Keys.CapsLock);
             UpdateVisiable();
@@ -110,6 +110,7 @@ namespace KeyboardLed
                 {
                     case Keys.Pause:
                     {
+                        AudioHelp.SetMute(speakerMute);
                         speakerMute = !AudioHelp.IsMute();
                         speaker.Show(speakerMute);
                         break;
