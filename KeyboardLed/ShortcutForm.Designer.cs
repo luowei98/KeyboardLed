@@ -66,7 +66,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(300, 300);
-            this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.textBox);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -80,7 +79,7 @@
             this.Load += new System.EventHandler(this.ShortcutForm_Load);
             this.VisibleChanged += new System.EventHandler(this.ShortcutForm_VisibleChanged);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ShortcutForm_KeyPress);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ShortcutForm_MouseUp);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ShortcutForm_MouseClick);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

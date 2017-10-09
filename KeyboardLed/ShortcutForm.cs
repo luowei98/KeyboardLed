@@ -130,11 +130,16 @@ namespace KeyboardLed
             this.TopMost = true;
         }
 
-        private void ShortcutForm_MouseUp(object sender, MouseEventArgs e)
+        private void ShortcutForm_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 this.Hide();
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                var l = this.PointToScreen(new Point(e.X, e.Y));
+                contextMenuStrip.Show(l);
             }
         }
 
